@@ -1,4 +1,5 @@
-define(function() {
+define(['snap'],
+function(Snap) {
 	return Snap.plugin(function(Snap, Element, Paper) {
 		var PADDING = 10;
 		var VERTICAL_TICK_PADDING = 10;
