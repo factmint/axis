@@ -1,5 +1,5 @@
-define(['snap'],
-function(Snap) {
+define(['snap', 'tick-mark'],
+function(Snap,   tickMark) {
 	return Snap.plugin(function(Snap, Element, Paper) {
 		var PADDING = 10;
 		var VERTICAL_TICK_PADDING = 10;
