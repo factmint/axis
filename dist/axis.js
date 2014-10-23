@@ -1,5 +1,5 @@
-define(['snap', 'tick-mark'],
-function(Snap,   tickMark) {
+define(['snap', 'tick-mark', 'number-utils'],
+function(Snap,   tickMark,    NumberUtils) {
 	return Snap.plugin(function(Snap, Element, Paper) {
 		var PADDING = 10;
 		var VERTICAL_TICK_PADDING = 10;
@@ -20,7 +20,13 @@ function(Snap,   tickMark) {
 
 			if (orientation === 'horizontal') {
 				tickMarkValues.forEach(function(tickMark) {
-					var pixel = scale.getPixel(tickMark);
+					if (typeof(tickMark) !== 'object') {
+						tickMark = {
+							position: tickMark,
+							label: NumberUtils.renderValue(tickMark)
+						}
+					}
+					var pixel = scale.getPixel(tickMark.position);
 					axis.startPoints.push({
 						x: pixel,
 						y: startY
@@ -31,7 +37,7 @@ function(Snap,   tickMark) {
 							startY,
 							'vertical',
 							tickMarkSize,
-							tickMark,
+							tickMark.label,
 							VERTICAL_TICK_PADDING
 						)
 					);
@@ -52,8 +58,15 @@ function(Snap,   tickMark) {
 				axis.append(axisLabel);
 				axis.append(tickMarks);
 			} else {
-				tickMarkValues.forEach(function(tickMark, tickMarkIndex) {
-					var pixel = scale.getPixel(tickMark);
+				tickMarkValues.forEach(function(tickMark) {
+					if (typeof(tickMark) !== 'object') {
+						tickMark = {
+							position: tickMark,
+							label: NumberUtils.renderValue(tickMark)
+						}
+					}
+					
+					var pixel = scale.getPixel(tickMark.position);
 		
 					axis.startPoints.push({
 						x: startX,
@@ -64,7 +77,7 @@ function(Snap,   tickMark) {
 						pixel,
 						'horizontal',
 						tickMarkSize,
-						tickMark
+						tickMark.label
 					);
 					tickMarks.append(newTickMark);
 				});
