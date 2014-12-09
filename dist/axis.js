@@ -9,13 +9,12 @@ function(Snap,   tickMark,    NumberUtils) {
 		var AXIS_LABEL_FONT_SIZE = 12;
 		var AXIS_LABEL_PADDING = 5;
 
-		Paper.prototype.axis = function(startX, startY, scale, tickMarkValues, tickMarkSize, orientation, label) {
+		Paper.prototype.axis = function(startX, startY, scale, tickMarkValues, tickMarkSize, orientation, label, includeLine, labelPosition) {
 			var paper = this;
 			var axis = paper.g();
 
 			var tickMarks = this.g();
 			var totalValues = tickMarks.length;
-
 			axis.startPoints = [];
 
 			if (orientation === 'horizontal') {
@@ -43,10 +42,24 @@ function(Snap,   tickMark,    NumberUtils) {
 					);
 				});
 
-				var axisLine = paper.line(startX, startY, scale.end, startY)
-					.addClass('fm-axis');
+				if (includeLine) {
+					var axisLine = paper.line(startX, startY, scale.end, startY)
+						.addClass('fm-axis');
+				}
 
-				var axisLabel = paper.text(scale.middle, tickMarks.getBBox().y + tickMarks.getBBox().height + PADDING * 1.75, label)
+				var axisLabelYPosition;
+
+				if (! labelPosition || labelPosition === 'last') {
+					axisLabelYPosition = tickMarks.getBBox().y + tickMarks.getBBox().height + PADDING * 1.75;
+				} else if (labelPosition === 'first') {
+					axisLabelYPosition = tickMarks.getBBox().y - PADDING * 1.75;
+				} else {
+					console.error('Invalid axis label position specified.');
+				}
+
+				var axisLabel = paper.text(scale.middle, axisLabelYPosition, label)
+					.addClass('fm-x-axis-label');
+
 				axisLabel.attr({
 					'font-family': AXIS_LABEL_FONT_FAMILY,
 					'font-weight': AXIS_LABEL_FONT_WEIGHT,
@@ -65,9 +78,8 @@ function(Snap,   tickMark,    NumberUtils) {
 							label: NumberUtils.renderValue(tickMark)
 						}
 					}
-					
 					var pixel = scale.getPixel(tickMark.position);
-		
+
 					axis.startPoints.push({
 						x: startX,
 						y: pixel
@@ -85,11 +97,19 @@ function(Snap,   tickMark,    NumberUtils) {
 
 				var axisBBox = axis.getBBox();
 
+				if (includeLine) {
+					var axisLineStartPoint = axisBBox.x + axisBBox.width + 100;
+					var axisLine = paper.line(startX, startY, startX, scale.end)
+						.addClass('fm-axis');
+					axis.append(axisLine);
+				}
+
 				var axisLabel = paper.text(
 					axisBBox.x - (AXIS_LABEL_FONT_SIZE / 2) - AXIS_LABEL_PADDING,
 					scale.middle,
 					label
-				);
+				)
+					.addClass('fm-y-axis-label');
 
 				var axisLabelBBox = axisLabel.getBBox();
 				axisLabel.attr({
