@@ -47,31 +47,28 @@ function(Snap,   tickMark,    NumberUtils) {
 						.addClass('fm-axis');
 				}
 
-				if (axisLabel) {
-					var axisLabelYPosition;
-	
-					if (! labelPosition || labelPosition === 'last') {
-						axisLabelYPosition = tickMarks.getBBox().y + tickMarks.getBBox().height + PADDING * 1.75;
-					} else if (labelPosition === 'first') {
-						axisLabelYPosition = tickMarks.getBBox().y - PADDING * 1.75;
-					} else {
-						console.error('Invalid axis label position specified.');
-					}
-	
-					var axisLabel = paper.text(scale.middle, axisLabelYPosition, label)
-						.addClass('fm-x-axis-label');
-	
-					axisLabel.attr({
-						'font-family': AXIS_LABEL_FONT_FAMILY,
-						'font-weight': AXIS_LABEL_FONT_WEIGHT,
-						'font-size': AXIS_LABEL_FONT_SIZE,
-						'text-anchor': 'middle'
-					});
-	
-					axis.append(axisLabel);
+				var axisLabelYPosition;
+
+				if (! labelPosition || labelPosition === 'last') {
+					axisLabelYPosition = tickMarks.getBBox().y + tickMarks.getBBox().height + PADDING * 1.75;
+				} else if (labelPosition === 'first') {
+					axisLabelYPosition = tickMarks.getBBox().y - PADDING * 1.75;
+				} else {
+					console.error('Invalid axis label position specified.');
 				}
-				
+
+				var axisLabel = paper.text(scale.middle, axisLabelYPosition, label)
+					.addClass('fm-x-axis-label');
+
+				axisLabel.attr({
+					'font-family': AXIS_LABEL_FONT_FAMILY,
+					'font-weight': AXIS_LABEL_FONT_WEIGHT,
+					'font-size': AXIS_LABEL_FONT_SIZE,
+					'text-anchor': 'middle'
+				});
+
 				axis.append(axisLine);
+				axis.append(axisLabel);
 				axis.append(tickMarks);
 			} else {
 				tickMarkValues.forEach(function(tickMark) {
@@ -107,25 +104,23 @@ function(Snap,   tickMark,    NumberUtils) {
 					axis.append(axisLine);
 				}
 
-				if (axisLabel) {
-					var axisLabel = paper.text(
-						axisBBox.x - (AXIS_LABEL_FONT_SIZE / 2) - AXIS_LABEL_PADDING,
-						scale.middle,
-						label
-					)
-						.addClass('fm-y-axis-label');
-	
-					var axisLabelBBox = axisLabel.getBBox();
-					axisLabel.attr({
-						'font-family': AXIS_LABEL_FONT_FAMILY,
-						'font-weight': AXIS_LABEL_FONT_WEIGHT,
-						'font-size': AXIS_LABEL_FONT_SIZE,
-						'text-anchor': 'middle'
-					})
-						.transform('r -90');
-	
-					axis.append(axisLabel);
-				}
+				var axisLabel = paper.text(
+					axisBBox.x - (AXIS_LABEL_FONT_SIZE / 2) - AXIS_LABEL_PADDING,
+					scale.middle,
+					label
+				)
+					.addClass('fm-y-axis-label');
+
+				var axisLabelBBox = axisLabel.getBBox();
+				axisLabel.attr({
+					'font-family': AXIS_LABEL_FONT_FAMILY,
+					'font-weight': AXIS_LABEL_FONT_WEIGHT,
+					'font-size': AXIS_LABEL_FONT_SIZE,
+					'text-anchor': 'middle'
+				})
+					.transform('r -90');
+
+				axis.append(axisLabel);
 			}
 
 			return axis;
