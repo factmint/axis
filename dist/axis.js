@@ -1,13 +1,13 @@
 define(['snap', 'tick-mark', 'number-utils'],
 function(Snap,   tickMark,    NumberUtils) {
 	return Snap.plugin(function(Snap, Element, Paper) {
-		var PADDING = 20;
+		var PADDING = 10;
 		var VERTICAL_TICK_PADDING = 10;
 
 		var AXIS_LABEL_FONT_FAMILY = "'Lato', sans-serif";
 		var AXIS_LABEL_FONT_WEIGHT = 400;
 		var AXIS_LABEL_FONT_SIZE = 12;
-		var AXIS_LABEL_PADDING = 5;
+		var AXIS_LABEL_PADDING = 25;
 
 		Paper.prototype.axis = function(startX, startY, scale, tickMarkValues, tickMarkSize, orientation, label, includeLine, labelPosition) {
 			var paper = this;
