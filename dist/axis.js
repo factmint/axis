@@ -47,7 +47,7 @@ function(Snap,   tickMark,    NumberUtils) {
 						.addClass('fm-axis');
 				}
 
-				if (axisLabel) {
+				if (label) {
 					var axisLabelYPosition;
 	
 					if (! labelPosition || labelPosition === 'last') {
@@ -107,7 +107,7 @@ function(Snap,   tickMark,    NumberUtils) {
 					axis.append(axisLine);
 				}
 
-				if (axisLabel) {
+				if (label) {
 					var axisLabel = paper.text(
 						axisBBox.x - (AXIS_LABEL_FONT_SIZE / 2) - AXIS_LABEL_PADDING,
 						scale.middle,
