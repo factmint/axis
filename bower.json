@@ -6,7 +6,7 @@
 	],
 	"description": "A Snap.svg plugin for drawing graph axes",
 	"dependencies": {
-        "tick-mark": "https://git.assembla.com/descartes_diaphragm.tick-mark.git"
+        "tick-mark": "https://github.com/factmint/tick-mark.git"
 	},
 	"main": "dist/axis.js",
 	"moduleType": [
